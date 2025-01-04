@@ -19,6 +19,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  padding: 16px;
 }
 
 .App-link {
@@ -34,6 +35,7 @@
 .navbar {
   background-color: rgb(223, 240, 239);
 }
+
 .navbar_button {
   background-color: lightseagreen;
   border: none;
@@ -41,7 +43,7 @@
   /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 1); */
   transition: transform 0.2s, box-shadow 0.2s;
   padding: 12px 16px;
-  font-size: 15px;
+  font-size: 16px;
   margin: 0px 2px;
 }
 
