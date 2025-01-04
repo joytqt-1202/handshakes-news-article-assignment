@@ -21,6 +21,7 @@ function ChangeArticles() {
 
     const [alertString, setAlertString] = useState<string>('');
     const [dataToPost, setDataToPost] = useState<ArticleData | null>(null);
+    const [successString, setSuccessString] = useState<string>('');
   
     const handleInputChange = (
       setInputValue: React.Dispatch<React.SetStateAction<string>>, 
@@ -29,7 +30,7 @@ function ChangeArticles() {
       return (value: string) => {
         setInputValue(value);
         if (value.trim() === '') {
-          setAlertValue('*Required field');
+          setAlertValue('*Required');
         } else {
           setAlertValue('');
         }
@@ -38,7 +39,7 @@ function ChangeArticles() {
   
     const checkValue = (value: string, setAlertValue: React.Dispatch<React.SetStateAction<string>>) => {
       if ( value.trim() === '' ) {
-        setAlertValue('*Required field');
+        setAlertValue('*Required');
       } else {
         setAlertValue('');
       }
@@ -55,6 +56,7 @@ function ChangeArticles() {
           || articlePublisher.trim() === '' 
           || articleDate === '' ) {
 
+        setSuccessString('');
         setAlertString('Please fill in all fields!');
 
       } else {
@@ -96,11 +98,14 @@ function ChangeArticles() {
       .then((text) => {
         const body = JSON.parse(text);
 
-        setAlertString(body.Message);
 
         if (body.Message !== create_article_success_msg) {
+          setAlertString(body.Message);
+          setSuccessString('');
           throw new Error(`Error: ${body.Message}`);
         }
+        setAlertString('');
+        setSuccessString(body.Message);
         
       })
       .catch((error) => console.error('Error adding article:', error));
@@ -108,15 +113,18 @@ function ChangeArticles() {
     
   
     return (
-      <div className="App">
-        <header className="App-header App-background">
-          <h2>Add News Articles</h2>
-          <table className="Article-Form">
+      <div className="App-background App">
+        <header className="App-header">
+          Add News Article
+        </header>
+
+        <div className="Article-Form">
+          <table>
             <tbody>
               <tr>
                 <td>
                   <text>Article Title:</text>
-                  <small className="Notification">{titleAlert}</small><br/>
+                  <small className="Alert">{titleAlert}</small><br/>
                   <TextInput
                     textinput={articleTitle}
                     onChange={handleInputChange(setArticleTitle, setTitleAlert)}
@@ -126,7 +134,7 @@ function ChangeArticles() {
                 </td>
                 <td rowSpan={3}>
                   <text>Article Summary:</text>
-                  <small className="Notification">{summaryAlert}</small><br/>
+                  <small className="Alert">{summaryAlert}</small><br/>
                   <TextAreaInput
                     textinput={articleSummary}
                     onChange={handleInputChange(setArticleSummary, setSummaryAlert)}
@@ -137,7 +145,7 @@ function ChangeArticles() {
               <tr>
                 <td>
                   <text>Date Published:</text>
-                  <small className="Notification">{dateAlert}</small><br/>
+                  <small className="Alert">{dateAlert}</small><br/>
                   <TextInput
                     textinput={articleDate}
                     onChange={handleInputChange(setArticleDate, setDateAlert)}
@@ -149,7 +157,7 @@ function ChangeArticles() {
               <tr>
                 <td>
                   <text>Article Publisher:</text>
-                  <small className="Notification">{publisherAlert}</small><br/>
+                  <small className="Alert">{publisherAlert}</small><br/>
                   <TextInput
                     textinput={articlePublisher}
                     onChange={handleInputChange(setArticlePublisher, setPublisherAlert)}
@@ -161,13 +169,10 @@ function ChangeArticles() {
             </tbody>
           </table>
           <button onClick={handleClick}>Submit</button>
-  
-  
-          <p className="Notification" style={{whiteSpace: 'pre-wrap', textAlign: 'left'}}>
-            {alertString}
-          </p>
-  
-        </header>
+
+          <text className="Alert">{alertString}</text>
+          <text className="Notification">{successString}</text>
+        </div>
       </div>
     );
 }
