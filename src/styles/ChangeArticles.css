@@ -1,0 +1,14 @@
+.Article-Form {
+  padding: 20px;
+  text-align: left;
+  font-size: 20px;
+}
+
+.short-text-input {
+  width: 300px;
+}
+
+.Notification {
+  font-size: 18px;
+  color: red;
+}
